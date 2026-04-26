@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Visual Studio Code - Replica</title>
+    <link href="https://cdn.jsdelivr.net/npm/@vscode/codicons@0.0.35/dist/codicon.css" rel="stylesheet" />
+    <link rel="stylesheet" href="vs code replica.css">
+</head>
+
+<body>
+
+    <div id="app">
+        <!-- TITLE BAR -->
+        <div class="titlebar">
+            <!-- Left: Icon and Menus -->
+            <div class="titlebar-left">
+                <div class="titlebar-icon"></div>
+                <div class="titlebar-menus">
+                    <div class="titlebar-menu" tabindex="0">File
+                        <div class="menu-dropdown">
+                            <div class="menu-item" data-cmd="file.newFile"><span>New File</span><span
+                                    class="menu-shortcut">Ctrl+N</span></div>
+                            <div class="menu-item" data-cmd="file.save"><span>Save</span><span
+                                    class="menu-shortcut">Ctrl+S</span></div>
+                            <div class="menu-sep"></div>
+                            <div class="menu-item" data-cmd="workbench.close"><span>Close Editor</span><span
+                                    class="menu-shortcut">Ctrl+W</span></div>
+                        </div>
+                    </div>
+                    <div class="titlebar-menu" tabindex="0">Edit
+                        <div class="menu-dropdown">
+                            <div class="menu-item" data-cmd="edit.undo"><span>Undo</span><span
+                                    class="menu-shortcut">Ctrl+Z</span></div>
+                            <div class="menu-item" data-cmd="edit.redo"><span>Redo</span><span
+                                    class="menu-shortcut">Ctrl+Y</span></div>
+                            <div class="menu-sep"></div>
+                            <div class="menu-item" data-cmd="edit.find"><span>Find</span><span
+                                    class="menu-shortcut">Ctrl+F</span></div>
+                        </div>
+                    </div>
+                    <div class="titlebar-menu" tabindex="0">View
+                        <div class="menu-dropdown">
+                            <div class="menu-item" data-cmd="workbench.toggleSidebar"><span>Toggle Sidebar</span><span
+                                    class="menu-shortcut">Ctrl+B</span></div>
+                            <div class="menu-item" data-cmd="workbench.togglePanel"><span>Toggle Panel</span><span
+                                    class="menu-shortcut">Ctrl+`</span></div>
+                        </div>
+                    </div>
+                    <div class="titlebar-menu" tabindex="0">Theme
+                        <div class="menu-dropdown">
+                            <div class="menu-item" data-cmd="theme.dark"><span>Dark (VS Code)</span></div>
+                            <div class="menu-item" data-cmd="theme.light"><span>Light (VS Code)</span></div>
+                            <div class="menu-item" data-cmd="theme.hc"><span>High Contrast</span></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Center: Command Center -->
+            <div class="titlebar-center">
+                <div class="command-center" id="command-center-btn" title="Search Workspace (Ctrl+K Ctrl+T)">
+                    <div class="cmd-icon-group">
+                        <i class="codicon codicon-arrow-left"></i>
+                        <i class="codicon codicon-arrow-right"></i>
+                    </div>
+                    <div class="command-center-search">
+                        <i class="codicon codicon-search" style="font-size: 14px; margin-right: 6px;"></i>
+                        <span>Search Workspace</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Right: Layout Controls -->
+            <div class="titlebar-right">
+                <div class="layout-controls">
+                    <div class="layout-icon" data-cmd="workbench.toggleSidebar" title="Toggle Primary Side Bar (Ctrl+B)"><i class="codicon codicon-layout-sidebar-left"></i></div>
+                    <div class="layout-icon" data-cmd="workbench.togglePanel" title="Toggle Panel (Ctrl+J)"><i class="codicon codicon-layout-panel"></i></div>
+                    <div class="layout-icon" title="Toggle Secondary Side Bar"><i class="codicon codicon-layout-sidebar-right"></i></div>
+                    <div class="layout-icon" title="Customize Layout"><i class="codicon codicon-layout"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- WORKBENCH -->
+        <div class="workbench">
+            <!-- ACTIVITY BAR -->
+            <div class="activity-bar">
+                <div class="activity-icon active" data-target="explorer" title="Explorer (Ctrl+Shift+E)"><i
+                        class="codicon codicon-files"></i></div>
+                <div class="activity-icon" data-target="search" title="Search (Ctrl+Shift+F)"><i
+                        class="codicon codicon-search"></i></div>
+                <div class="activity-icon" data-target="git" title="Source Control (Ctrl+Shift+G)"><i
+                        class="codicon codicon-source-control"></i></div>
+                <div class="activity-icon" data-target="debug" title="Run and Debug (Ctrl+Shift+D)"><i
+                        class="codicon codicon-debug-alt"></i></div>
+                <div class="activity-icon" data-target="extensions" title="Extensions (Ctrl+Shift+X)"><i
+                        class="codicon codicon-extensions"></i></div>
+                <div style="flex:1"></div>
+                <div class="activity-icon" title="Accounts"><i class="codicon codicon-account"></i></div>
+                <div class="activity-icon" title="Manage"><i class="codicon codicon-settings-gear"></i></div>
+            </div>
+
+            <!-- SIDEBAR -->
+            <div class="sidebar" id="sidebar">
+                <!-- Explorer Pane -->
+                <div class="sidebar-pane active" id="pane-explorer">
+                    <div class="sidebar-header">EXPLORER</div>
+                    <div class="tree-item level-1"><i class="codicon codicon-chevron-down chevron"></i><i
+                            class="codicon codicon-folder-opened tree-icon"
+                            style="color:#dcb67a"></i><strong>WORKSPACE</strong></div>
+                    <div id="explorer-tree"></div>
+                </div>
+                <!-- Search Pane -->
+                <div class="sidebar-pane" id="pane-search">
+                    <div class="sidebar-header">SEARCH</div>
+                    <div class="search-input-wrap">
+                        <input type="text" class="vscode-input" id="search-input" placeholder="Search files...">
+                    </div>
+                    <div id="search-results" style="padding: 0 10px; color: var(--vscode-fg); opacity: 0.8;"></div>
+                </div>
+                <!-- Others -->
+                <div class="sidebar-pane" id="pane-git">
+                    <div class="sidebar-header">SOURCE CONTROL</div>
+                    <div style="padding:10px;opacity:0.8;">Integrated Git placeholder.</div>
+                </div>
+                <div class="sidebar-pane" id="pane-debug">
+                    <div class="sidebar-header">RUN AND DEBUG</div>
+                </div>
+                <div class="sidebar-pane" id="pane-extensions">
+                    <div class="sidebar-header">EXTENSIONS</div>
+                </div>
+            </div>
+            <div id="sidebar-resizer"></div>
+
+            <!-- EDITOR AREA -->
+            <div class="editor-area">
+                <!-- Find Widget -->
+                <div id="find-widget">
+                    <input type="text" id="find-w-input" class="vscode-input" style="width:160px" placeholder="Find">
+                    <span id="find-w-count" style="margin:0 5px; opacity:0.6; font-size:11px"></span>
+                    <button class="vscode-btn" id="find-w-prev"><i class="codicon codicon-arrow-up"></i></button>
+                    <button class="vscode-btn" id="find-w-next"><i class="codicon codicon-arrow-down"></i></button>
+                    <button class="vscode-btn" id="find-w-close"
+                        style="background:transparent;color:var(--vscode-fg)"><i
+                            class="codicon codicon-close"></i></button>
+                </div>
+
+                <div class="tabs-container" id="editor-tabs"></div>
+                <div class="breadcrumb" id="editor-breadcrumb">
+                    <span>VS Code Replica</span> <i class="codicon codicon-chevron-right"
+                        style="font-size:10px;margin:0 2px;"></i> <span id="bc-filename"></span>
+                </div>
+
+                <div id="welcome-screen" class="welcome-screen active">
+                    <i class="codicon codicon-vscode welcome-logo"></i>
+                    <div class="welcome-header">Visual Studio Code</div>
+                    <div class="welcome-links">
+                        <div class="link-group">
+                            <h3>Start</h3>
+                            <div class="welcome-link" data-cmd="file.newFile"><i class="codicon codicon-new-file"></i>
+                                New File</div>
+                            <div class="welcome-link"><i class="codicon codicon-folder-opened"></i> Open File...</div>
+                            <div class="welcome-link"><i class="codicon codicon-repo-clone"></i> Clone Repository...
+                            </div>
+                        </div>
+                        <div class="link-group">
+                            <h3>Recent</h3>
+                            <div class="welcome-link" data-open="src/index.js"><i class="codicon codicon-file-code"></i>
+                                index.js</div>
+                            <div class="welcome-link" data-open="styles.css"><i class="codicon codicon-file-code"></i>
+                                styles.css</div>
+                            <h3>Theme</h3>
+                            <div class="welcome-link" data-cmd="theme.dark"><i class="codicon codicon-color-mode"></i>
+                                Dark Theme</div>
+                            <div class="welcome-link" data-cmd="theme.light"><i
+                                    class="codicon codicon-symbol-color"></i> Light Theme</div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="monaco-container"></div>
+            </div>
+        </div>
+
+        <!-- BOTTOM PANEL -->
+        <div class="panel" id="bottom-panel">
+            <div id="panel-resizer"></div>
+            <div class="panel-tabs">
+                <div class="panel-tab" data-paneltarget="problems">PROBLEMS</div>
+                <div class="panel-tab" data-paneltarget="output">OUTPUT</div>
+                <div class="panel-tab" data-paneltarget="debugconsole">DEBUG CONSOLE</div>
+                <div class="panel-tab active" data-paneltarget="terminal">TERMINAL <span
+                        style="margin-left:5px;opacity:0.5;">(bash)</span></div>
+                <div class="panel-tab" data-paneltarget="ports">PORTS</div>
+                <div class="panel-actions">
+                    <div class="panel-action" data-cmd="workbench.togglePanel"><i class="codicon codicon-close"></i>
+                    </div>
+                </div>
+            </div>
+
+            <div class="panel-content active" id="bpanel-terminal">
+                <div class="terminal-log" id="term-log">
+                    <span style="color:var(--vscode-success)">Welcome to VS Code Web Terminal!</span><br>
+                    <span>Type 'help' for simulated commands.</span><br>
+                </div>
+                <div class="cmd-line">
+                    <span class="cmd-prompt">user@web-ide ~ $</span>
+                    <input type="text" class="cmd-input" id="term-input" autocomplete="off" spellcheck="false" />
+                </div>
+            </div>
+            <div class="panel-content" id="bpanel-problems"><span style="opacity:0.6">No problems have been detected in
+                    the workspace.</span></div>
+            <div class="panel-content" id="bpanel-output"><span style="opacity:0.6">Ready.</span></div>
+            <div class="panel-content" id="bpanel-debugconsole"><span style="opacity:0.6">Please start a debug
+                    session.</span></div>
+            <div class="panel-content" id="bpanel-ports"><span style="opacity:0.6">No forwarded ports.</span></div>
+        </div>
+
+        <!-- STATUS BAR -->
+        <div class="statusbar" id="statusbar">
+            <div class="sb-group">
+                <div class="sb-item"><i class="codicon codicon-source-control"></i> main</div>
+                <div class="sb-item"><i class="codicon codicon-sync"></i> 0&darr; 0&uarr;</div>
+                <div class="sb-item"><i class="codicon codicon-error" style="color:var(--vscode-error)"></i> 0 <i
+                        class="codicon codicon-warning" style="margin-left:6px;color:var(--vscode-warn)"></i> 0</div>
+            </div>
+            <div class="sb-group">
+                <div class="sb-item" id="sb-cursor">Ln 1, Col 1</div>
+                <div class="sb-item">Spaces: 2</div>
+                <div class="sb-item">UTF-8</div>
+                <div class="sb-item">CRLF</div>
+                <div class="sb-item" id="sb-language">Plain Text</div>
+                <div class="sb-item"><i class="codicon codicon-check-all"></i> Prettier</div>
+                <div class="sb-item"><i class="codicon codicon-bell"></i></div>
+            </div>
+        </div>
+    </div>
+
+    <!-- COMMAND PALETTE OVERLAY -->
+    <div id="cmd-overlay">
+        <div class="cmd-box">
+            <input type="text" class="cmd-input" id="palette-input" placeholder="> Type a command...">
+            <div class="cmd-list" id="palette-list"></div>
+        </div>
+    </div>
+
+    <!-- Scripts -->
+    <script src="https://cdn.jsdelivr.net/npm/monaco-editor@0.44.0/min/vs/loader.js"></script>
+    <script src="vs code replica.js"></script>
+</body>
+
+</html>
